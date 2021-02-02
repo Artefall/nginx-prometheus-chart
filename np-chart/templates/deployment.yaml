@@ -1,0 +1,74 @@
+# Nginx pods
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels: 
+    app: ngchart
+spec:
+  selector: 
+    matchLabels: 
+      project: ngchart
+  template: 
+    metadata:
+      labels:
+        project: ngchart
+    spec:
+      containers:
+        - name: nginx-web-server
+          image: nginx:latest
+          ports:
+            - containerPort: 9000
+
+---
+
+#Prometheus pods
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-deployment 
+  labels:
+    app: ngchart
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      project: ngchart
+  template:
+    metadata:
+      labels:
+        project: ngchart
+  spec: 
+    - name: prometheus
+      image: prom/prometheus:latest
+      ports: 
+        - containerPort: 9090
+
+
+---
+
+#Grafana pods
+
+apiVersion: 
+type: Deployment
+metadata:
+  name:
+  labels:
+    project: ngchart
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      project: ngchart
+  template:
+    metadata:
+      labels: 
+        project: ngchart
+  spec:
+    containers:
+      - name:
+        image:
+        port:
+          containerPort: 9500
