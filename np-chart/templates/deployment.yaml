@@ -9,17 +9,47 @@ metadata:
 spec:
   selector: 
     matchLabels: 
-      project: ngchart
+      app: monitoring
   template: 
     metadata:
       labels:
-        project: ngchart
+        app: monitoring
     spec:
       containers:
         - name: nginx-web-server
           image: nginx:latest
           ports:
-            - containerPort: 9000
+            - containerPort: 80
+
+---
+
+# Nginx-exporter
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-exporter-deployment
+  labels:
+    app: ngchart
+spec:
+  selector:
+    matchLabels:
+      app: monitoring
+  template:
+    metadata:
+      labels:
+        app: monitoring
+    spec:
+      containers:
+        - name: nginx-exporter
+          image: nginx/nginx-prometheus-exporter
+          env:
+            - name: 
+              value:
+            - name:
+              value:
+          ports:
+            - containerPort: 9113
 
 ---
 
@@ -30,45 +60,44 @@ kind: Deployment
 metadata:
   name: prometheus-deployment 
   labels:
-    app: ngchart
+    app: monitoring
 spec:
-  replicas: 1
   selector:
     matchLabels: 
-      project: ngchart
+      app: monitoring
   template:
     metadata:
       labels:
-        project: ngchart
-  spec: 
-    - name: prometheus
-      image: prom/prometheus:latest
-      ports: 
-        - containerPort: 9090
+        app: monitoring
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports: 
+            - containerPort: 9090
 
 
 ---
 
-#Grafana pods
+# #Grafana pods
 
-apiVersion: 
-type: Deployment
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name:
+  name: grafana-deployment
   labels:
-    project: ngchart
+    app: monitoring
 spec:
-  replicas: 1
   selector:
     matchLabels: 
-      project: ngchart
+      app: monitoring
   template:
     metadata:
       labels: 
-        project: ngchart
-  spec:
-    containers:
-      - name:
-        image:
-        port:
-          containerPort: 9500
+        app: monitoring
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana
+          ports:
+            - containerPort: 3000
